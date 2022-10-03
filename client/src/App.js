@@ -28,7 +28,7 @@ const App = () => {
       .get("/api")
       .then((response) => {
         setIsLoading(false);    
-        setData(response.data);
+        setData(response);
       })
       .catch((error) => {
         setIsLoading(false);

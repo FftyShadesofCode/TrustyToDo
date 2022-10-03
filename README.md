@@ -1,22 +1,19 @@
-# react-node-todo-app
-
-A todo app that utilises NodeJS and React for the backend and front-end respectively. It uses a dummy server provided by "{JSON} Placeholder". The app has CRUD capabilities which allows for management of todo items.
+# Trusty ToDo
 
 # Setup
 1. Clone the git repo in your local machine and start a terminal in the base folder. Run the following:
 ```
-npm install
+npm install npm-run-all
 ```
-2. Once all base dependencies are installed run the following commands
+2. Once dependency is installed run the following command to install all dependencies in both server and client.
 ```
-cd api
-npm start
+npm run iall
+
 ```
-This will start the server and enable communication with the API.
-3. In order to run the front-end run the following command
+3. In order to run both server and client simultaneously:
 ```
-cd ../client
-npm install
-npm start
+npm run all
+
 ```
-4. Both the front-end and the back-end should be running at this point and you should be directed to your localhost on port 3000 by React.
+4. Both the front-end and the back-end should be running at this point, and you should be directed to your localhost 
+   on port 3000.
