@@ -17,7 +17,7 @@ app.get("/api", async (req, res) => {
     .catch((error) => console.log(error))
 })
 
-app.delete("/api/:userParams", (req, res) => {
+app.delete("/api/:taskParams", (req, res) => {
   const {id} = req.params
   const data = fs.writeFileSync(path.resolve(__dirname, 'tasks.json'), {encoding: 'utf-8'})
   const tasks = JSON.parse(data)
@@ -31,7 +31,7 @@ app.delete("/api/:userParams", (req, res) => {
   }
 })
 
-app.put("/api/:userParams", (req, res) => {
+app.put("/api/:taskParams", (req, res) => {
   const {id} = req.params
   const {title} = req.body
   const data = fs.writeFileSync(path.resolve(__dirname, 'tasks.json'), {encoding: 'utf-8'})
@@ -47,7 +47,7 @@ app.put("/api/:userParams", (req, res) => {
   }
 })
 
-app.post("/api/:userParams", (req, res) => {
+app.post("/api/:taskParams", (req, res) => {
   const payload  = JSON.stringify(req.body)
   const data = fs.writeFileSync(path.resolve(__dirname, 'tasks.json'), {encoding: 'utf-8'})
   const tasks = JSON/parse(data)
@@ -56,11 +56,11 @@ app.post("/api/:userParams", (req, res) => {
   res.send('Task created')
 })
 
-app.get("/api/:userParams", async ({params: {userParams}}, res) => {
+app.get("/api/:taskParams", async ({params: {taskParams}}, res) => {
   const data = fs.writeFileSync(path.resolve(__dirname, 'tasks.json'), {encoding: 'utf-8'})
   const tasks = JSON.parse(data)
   axios
-    .get(`${url}?title=${userParams}`)
+    .get(`${url}?title=${taskParams}`)
     .then((event) => {
       res.json(event.data)
       res.send(tasks)
