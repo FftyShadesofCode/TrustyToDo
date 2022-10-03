@@ -9,8 +9,9 @@ const url = `https://jsonplaceholder.typicode.com/todos`
 app.get("/api", async (req, res) => {
   axios
     .get(url)
-    .then((event) => {
-      const data = fs.writeFileSync(path.resolve(__dirname, 'tasks.json'), {encoding: 'utf-8'})
+    .then((e) => {
+      e.preventDefault()
+      const data = fs.readFileSync(path.resolve(__dirname, 'tasks.json'))
       const tasks = JSON.parse(data)
       res.send(tasks)
     })
@@ -19,9 +20,9 @@ app.get("/api", async (req, res) => {
 
 app.delete("/api/:taskParams", (req, res) => {
   const {id} = req.params
-  const data = fs.writeFileSync(path.resolve(__dirname, 'tasks.json'), {encoding: 'utf-8'})
+  const data = fs.readFileSync(path.resolve(__dirname, 'tasks.json'))
   const tasks = JSON.parse(data)
-  const index = tasks.findIndex((t) => t.id===parseInt(id))
+  const index = tasks.findIndex((t) => t.id===strInt(id))
   if(index >= 0){
     tasks.splice(index, 1)
     fs.writeFileSync(path.resolve(__dirname, 'tasks.json'), JSON.stringify(tasks))
@@ -34,13 +35,13 @@ app.delete("/api/:taskParams", (req, res) => {
 app.put("/api/:taskParams", (req, res) => {
   const {id} = req.params
   const {title} = req.body
-  const data = fs.writeFileSync(path.resolve(__dirname, 'tasks.json'), {encoding: 'utf-8'})
+  const data = fs.readFileSync(path.resolve(__dirname, 'tasks.json'))
   const tasks = JSON.parse(data)
   const task = tasks.find((t) => t.id == id)
   if(task!==undefined){
     task.title = title
     const Tasks = [...tasks]
-    fs.writeFileSync(path.resolve(__dirname, 'tasks.json'), JSON.stringify(Tasks))
+    fs.writeFile(path.resolve(__dirname, 'tasks.json'), JSON.stringify(Tasks))
     res.send('Task updated')
   } else {
     res.status(404).send('Task not found')
@@ -48,16 +49,16 @@ app.put("/api/:taskParams", (req, res) => {
 })
 
 app.post("/api/:taskParams", (req, res) => {
-  const payload  = JSON.stringify(req.body)
-  const data = fs.writeFileSync(path.resolve(__dirname, 'tasks.json'), {encoding: 'utf-8'})
-  const tasks = JSON/parse(data)
-  const new_task=[...tasks,JSON.parse(payload)]
+  const payload  = JSON.parse(req.body)
+  const data = fs.readFileSync(path.resolve(__dirname, 'tasks.json'))
+  const tasks = JSON.parse(data)
+  const new_task=[...tasks, JSON.parse(payload)]
   fs.writeFileSync('./tasks.json', JSON.stringify(new_task))
   res.send('Task created')
 })
 
 app.get("/api/:taskParams", async ({params: {taskParams}}, res) => {
-  const data = fs.writeFileSync(path.resolve(__dirname, 'tasks.json'), {encoding: 'utf-8'})
+  const data = fs.readFileSync(path.resolve(__dirname, 'tasks.json'))
   const tasks = JSON.parse(data)
   axios
     .get(`${url}?title=${taskParams}`)
