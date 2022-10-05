@@ -2,7 +2,7 @@ const express = require("express")
 const axios = require("axios")
 const fs = require('fs')
 const path = require('path')
-const PORT = 3030
+const PORT = 5000 || 8000
 const app = express()
 
 const url = `https://jsonplaceholder.typicode.com/todos`
