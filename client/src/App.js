@@ -1,59 +1,59 @@
-import axios from "axios";
-import React, { createContext, useContext, useEffect, useState } from "react";
-import ContentCard from "./components/ContentCard";
-import Error from "./components/Error";
-import Loading from "./components/Loading";
-import Header from "./components/Header";
-import { Button, Stack } from "react-bootstrap";
-import {BsPencilSquare, BsFillTrashFill} from 'react-icons/bs';
+import axios from "axios"
+import React, { createContext, useContext, useEffect, useState } from "react"
+import ContentCard from "./components/ContentCard"
+import Error from "./components/Error"
+import Loading from "./components/Loading"
+import Header from "./components/Header"
+import { Button, Stack } from "react-bootstrap"
+import {BsPencilSquare, BsFillTrashFill} from 'react-icons/bs'
 
 import './app.css'
 
-export const ToDoContext = createContext();
-export const useToDoContext = () => useContext(ToDoContext);
+export const ToDoContext = createContext()
+export const useToDoContext = () => useContext(ToDoContext)
 
 const App = () => {
-  const [data, setData] = useState([]);
-  const [todo, setTodo] = useState({title: ''});
-  const [hasError, setHasError] = useState(false);
-  const [showToast, setShowToast] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
-  const value = { data, setData, setTodo, todo, searchValue, setSearchValue };
+  const [data, setData] = useState([])
+  const [todo, setTodo] = useState({title: ''})
+  const [hasError, setHasError] = useState(false)
+  const [showToast, setShowToast] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [searchValue, setSearchValue] = useState("")
+  const value = { data, setData, setTodo, todo, searchValue, setSearchValue }
 
+  const url = 'http://localhost:5000'
   useEffect(() => {
-    setIsLoading(true);
-    let cancel;
+    setIsLoading(true)
     axios
-      .get("/api")
-      .then((response) => {
-        setIsLoading(false);    
-        setData(response);
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        setHasError(true)
-      });
-  }, []);
+        .get(`${url}/api`)
+        .then((response) => {
+          setIsLoading(false)
+          setData(response.data)
+        })
+        .catch((error) => {
+          setIsLoading(false)
+          setHasError(true)
+        })
+  }, [])
 
   const handleDelete = (id) => {
-    const newData = data.filter((item) => item.id !== id);
+    const newData = data.filter((item) => item.id !== id)
     return () => {
     axios.delete(`/api/${id}`).then((response) => {
       //show toast
     }).catch(() => {
       //Show Toast 
-    });
-    setData(newData); 
-    };
+    })
+    setData(newData)
+    }
     
-  };
+  }
   const handleEdit = (id) => {
     return () => {
-      const editTodo = data.filter((item) => item.id === id);
-      setTodo(editTodo[0]);
-    };
-  };
+      const editTodo = data.filter((item) => item.id === id)
+      setTodo(editTodo[0])
+    }
+  }
   const filteredResults = data.filter(({title}) => title.toLowerCase().includes(searchValue))
   return (
     <ToDoContext.Provider value={value} className=' bg-black'>
@@ -85,7 +85,7 @@ const App = () => {
         </>
       )}
     </ToDoContext.Provider>
-  );
-};
+  )
+}
 
-export default App;
+export default App
