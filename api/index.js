@@ -2,7 +2,7 @@ const express = require("express")
 const axios = require("axios")
 const fs = require('fs')
 const path = require('path')
-const PORT = 5000 || 8000
+const PORT = 5001 || 8000
 const app = express()
 
 const url = `https://jsonplaceholder.typicode.com/todos`
@@ -11,8 +11,7 @@ app.get("/api", async (req, res) => {
     .get(url)
     .then((e) => {
       const data = fs.readFileSync(path.resolve(__dirname, 'tasks.json'), {encoding: 'utf-8'})
-      const tasks = JSON.parse({data})
-      res.send(tasks)
+      res.send(data)
     })
     .catch((error) => console.log(error))
 })
