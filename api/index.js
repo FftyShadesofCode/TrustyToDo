@@ -1,19 +1,20 @@
 const express = require("express")
+const cors = require('cors')
 const axios = require("axios")
 const fs = require('fs')
 const path = require('path')
-const PORT = 5001 || 8000
-const app = express()
+const PORT = 5000 || 8000
+const app = express(cors())
 
 const url = `https://jsonplaceholder.typicode.com/todos`
 app.get("/api", async (req, res) => {
   axios
-    .get(url)
-    .then((e) => {
-      const data = fs.readFileSync(path.resolve(__dirname, 'tasks.json'), {encoding: 'utf-8'})
-      res.send(data)
-    })
-    .catch((error) => console.log(error))
+      .get(url)
+      .then((e) => {
+        const data = fs.readFileSync(path.resolve(__dirname, 'tasks.json'), {encoding: 'utf-8'})
+        res.send(data)
+      })
+      .catch((error) => console.log(error))
 })
 
 app.delete("/api/:taskParams", (req, res) => {
@@ -59,14 +60,14 @@ app.get("/api/:taskParams", async ({params: {taskParams}}, res) => {
   const data = fs.readFileSync(path.resolve(__dirname, 'tasks.json'), {encoding: 'utf-8'})
   const tasks = JSON.parse({data})
   axios
-    .get(`${url}?title=${taskParams}`)
-    .then((event) => {
-      res.json(event.
-          data
-      )
-      res.send(tasks)
-    })
-    .catch((error) => console.log(error))
+      .get(`${url}?title=${taskParams}`)
+      .then((event) => {
+        res.json(event.
+            data
+        )
+        res.send(tasks)
+      })
+      .catch((error) => console.log(error))
 })
 
 app.listen(PORT, () => {
