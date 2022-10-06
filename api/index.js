@@ -10,7 +10,7 @@ app.get("/api", async (req, res) => {
   axios
     .get(url)
     .then((e) => {
-      const data = fs.readFileSync(path.resolve(__dirname, 'tasks.json'))
+      const data = fs.readFileSync(path.resolve(__dirname, 'tasks.json'), {encoding: 'utf-8'})
       const tasks = JSON.parse({data})
       res.send(tasks)
     })
@@ -19,7 +19,7 @@ app.get("/api", async (req, res) => {
 
 app.delete("/api/:taskParams", (req, res) => {
   const {id} = req.params
-  const data = fs.readFileSync(path.resolve(__dirname, 'tasks.json'))
+  const data = fs.readFileSync(path.resolve(__dirname, 'tasks.json'), {encoding: 'utf-8'})
   const tasks = JSON.parse({data})
   const index = tasks.findIndex((t) => t.id===strInt(id))
   if(index >= 0){
@@ -34,7 +34,7 @@ app.delete("/api/:taskParams", (req, res) => {
 app.put("/api/:taskParams", (req, res) => {
   const {id} = req.params
   const {title} = req.body
-  const data = fs.readFileSync(path.resolve(__dirname, 'tasks.json'))
+  const data = fs.readFileSync(path.resolve(__dirname, 'tasks.json'), {encoding: 'utf-8'})
   const tasks = JSON.parse({data})
   const task = tasks.find((t) => t.id == id)
   if(task!==undefined){
@@ -49,7 +49,7 @@ app.put("/api/:taskParams", (req, res) => {
 
 app.post("/api/:taskParams", (req, res) => {
   const payload  = JSON.parse(req.body)
-  const data = fs.readFileSync(path.resolve(__dirname, 'tasks.json'))
+  const data = fs.readFileSync(path.resolve(__dirname, 'tasks.json'), {encoding: 'utf-8'})
   const tasks = JSON.parse({data})
   const new_task=[...tasks, JSON.parse(payload)]
   fs.writeFileSync('./tasks.json', JSON.stringify(new_task))
@@ -57,7 +57,7 @@ app.post("/api/:taskParams", (req, res) => {
 })
 
 app.get("/api/:taskParams", async ({params: {taskParams}}, res) => {
-  const data = fs.readFileSync(path.resolve(__dirname, 'tasks.json'))
+  const data = fs.readFileSync(path.resolve(__dirname, 'tasks.json'), {encoding: 'utf-8'})
   const tasks = JSON.parse({data})
   axios
     .get(`${url}?title=${taskParams}`)
